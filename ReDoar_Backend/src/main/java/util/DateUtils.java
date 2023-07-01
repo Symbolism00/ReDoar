@@ -19,6 +19,13 @@ public class DateUtils {
         return isAfter(date, new Date(), dateFormat);
     }
 
+    /**
+     * Method that checks if one date is after the other date
+     * @param date1 the date 1 to compare
+     * @param date2 the date 2 to compare
+     * @param dateFormat the format to compare
+     * @return true if it is, false if not
+     */
     public static boolean isAfter(Date date1, Date date2, String dateFormat){
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         // convert dates to the same format
