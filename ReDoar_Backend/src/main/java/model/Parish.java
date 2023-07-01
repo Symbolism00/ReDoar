@@ -6,23 +6,20 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import util.StringUtils;
 
-@Table(name = "category")
+@Table(name = "parish")
 @Entity
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class Category extends Audit{
+public class Parish extends Audit{
 
     protected static final String PROPERTY_ID = "id";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="category_seq")
-    @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", initialValue = 100, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="parish_seq")
+    @SequenceGenerator(name = "parish_seq", sequenceName = "parish_seq", initialValue = 100, allocationSize = 1)
     @EqualsAndHashCode.Include
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "code")
-    private String code;
 
     @Column(name = "designation")
     private String designation;
@@ -30,34 +27,26 @@ public class Category extends Audit{
     @Column(name = "description")
     private String description;
 
-    protected Category(){
+    protected Parish() {
         // for ORM
     }
 
-    public Category(String code, String designation, String description) throws BusinessRuleException {
-        setCode(code);
+    public Parish(String designation, String description) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
-    public void setCode(String code) throws BusinessRuleException{
-        if(StringUtils.isNullOrEmpty(code)){
-            throw new BusinessRuleException("The category's code can't be null or empty!");
-        }
-        this.code = StringUtils.trim(code);
-    }
-
     public void setDesignation(String designation) throws BusinessRuleException {
         if(StringUtils.isNullOrEmpty(designation)){
-            throw new BusinessRuleException("The category's designation can't be null or empty!");
+            throw new BusinessRuleException("The parish's designation can't be null or empty!");
         }
         this.designation = StringUtils.trim(designation);
     }
 
     public void setDescription(String description) throws BusinessRuleException {
         if(StringUtils.isNullOrEmpty(description)){
-            throw new BusinessRuleException("The category's description can't be null or empty!");
+            throw new BusinessRuleException("The parish's description can't be null or empty!");
         }
         this.description = StringUtils.trim(description);
     }

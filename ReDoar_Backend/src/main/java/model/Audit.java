@@ -5,12 +5,13 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @MappedSuperclass
-public class Audit {
+public class Audit implements Serializable {
 
     @Column(name = "active")
     private boolean active;

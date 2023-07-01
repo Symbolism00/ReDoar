@@ -18,8 +18,8 @@ public class Organization extends Audit{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="organization_seq")
     @SequenceGenerator(name = "organization_seq", sequenceName = "organization_seq", initialValue = 100, allocationSize = 1)
-    @Column(name = "id")
     @EqualsAndHashCode.Include
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "designation")

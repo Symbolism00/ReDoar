@@ -89,4 +89,21 @@ public class StringUtils {
         return !email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+" +
                 "(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$") ? "The " + entity + " email " + email + " is invalid!" : null;
     }
+
+    /**
+     * Method that checks if a zip code is valid
+     * @param zipCode the zip code
+     * @param entity the entity type to be in the error message
+     * @return a non null string declaring the error, null if there is no error
+     */
+    public static String isValidZipCode(String zipCode, String entity){
+        if(StringUtils.isNullOrEmpty(zipCode)){
+            return "The " + entity + " zip code can't be null or empty!";
+        }
+        zipCode = StringUtils.trim(zipCode);
+
+        // checks zip code
+        return zipCode.matches("[1-9][0-9]{3}-[0-9]{3}") ? null :
+                "The " + entity + " zip code " + zipCode + " is invalid!";
+    }
 }

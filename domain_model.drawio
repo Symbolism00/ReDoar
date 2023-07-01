@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-07-01T15:34:49.885Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="Qns_VNygMqmMsNbb7_38" version="21.5.0" type="device">
+<mxfile host="app.diagrams.net" modified="2023-07-01T17:33:56.252Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="pIKLhu0RZi9f3r8Wvkvg" version="21.5.2" type="device">
   <diagram name="Página-1" id="2C6pVnh8TLemDda-iHzf">
-    <mxGraphModel dx="2911" dy="680" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2534" dy="476" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -381,7 +381,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="7BrYY2v-CXimhR1OL_HL-21" value="Address" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#66B2FF;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;gradientColor=none;swimlaneFillColor=#66B2FF;" parent="1" vertex="1">
-          <mxGeometry x="-690" y="1357" width="170" height="146" as="geometry" />
+          <mxGeometry x="-690" y="1357" width="170" height="206" as="geometry" />
         </mxCell>
         <mxCell id="7BrYY2v-CXimhR1OL_HL-39" value="- street: string" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="7BrYY2v-CXimhR1OL_HL-21" vertex="1">
           <mxGeometry y="26" width="170" height="30" as="geometry" />
@@ -394,6 +394,12 @@
         </mxCell>
         <mxCell id="7BrYY2v-CXimhR1OL_HL-43" value="- zip code: string" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="7BrYY2v-CXimhR1OL_HL-21" vertex="1">
           <mxGeometry y="116" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tPdGZpkckpGZ6fCeh17Q-1" value="- latitude: double" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7BrYY2v-CXimhR1OL_HL-21">
+          <mxGeometry y="146" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tPdGZpkckpGZ6fCeh17Q-2" value="- longitude: double" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7BrYY2v-CXimhR1OL_HL-21">
+          <mxGeometry y="176" width="170" height="30" as="geometry" />
         </mxCell>
         <mxCell id="7BrYY2v-CXimhR1OL_HL-22" value="Donation Message" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#66B2FF;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;gradientColor=none;swimlaneFillColor=#66B2FF;" parent="1" vertex="1">
           <mxGeometry x="390" y="1083" width="150" height="86" as="geometry" />
@@ -478,7 +484,7 @@
         <mxCell id="7BrYY2v-CXimhR1OL_HL-60" value="- VERY UNRELIABLE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="7BrYY2v-CXimhR1OL_HL-55" vertex="1">
           <mxGeometry y="160" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="7BrYY2v-CXimhR1OL_HL-77" value="Municipality" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#66B2FF;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;gradientColor=none;swimlaneFillColor=#66B2FF;" parent="1" vertex="1">
+        <mxCell id="7BrYY2v-CXimhR1OL_HL-77" value="County" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#66B2FF;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=#000000;gradientColor=none;swimlaneFillColor=#66B2FF;" parent="1" vertex="1">
           <mxGeometry x="-950" y="1430" width="130" height="86" as="geometry" />
         </mxCell>
         <mxCell id="7BrYY2v-CXimhR1OL_HL-78" value="- code: string" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="7BrYY2v-CXimhR1OL_HL-77" vertex="1">
