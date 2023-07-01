@@ -28,6 +28,15 @@ public class NumberUtils {
     }
 
     /**
+     * Method that checks if a double is less or equal than zero
+     * @param number the double to compare
+     * @return true if it is, false if not
+     */
+    public static boolean isZeroOrNegative(Double number){
+        return number != null && number <= 0;
+    }
+
+    /**
      * Method that checks if a latitude is valid
      * @param latitude the latitude to compare
      * @return true if it is, false if not

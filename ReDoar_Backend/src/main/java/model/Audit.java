@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Getter
-@Setter
 @MappedSuperclass
 public class Audit implements Serializable {
 
