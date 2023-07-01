@@ -9,7 +9,7 @@ import util.StringUtils;
 @Table(name = "category")
 @Entity
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Category extends Audit{
 
     protected static final String PROPERTY_ID = "id";
