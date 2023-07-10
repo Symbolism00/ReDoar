@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.BusinessRuleException;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +26,37 @@ public class DonationTransaction implements Serializable {
     @Column(name = "transaction_date")
     private Date transactionDate;
 
+    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Donation donation;
+
+    @Column(name = "donation_state")
+    @Enumerated(EnumType.STRING)
+    private DonationState donationState;
+
     protected DonationTransaction() {
         // for ORM
     }
+
+    public DonationTransaction(Donation donation, DonationState donationState) throws BusinessRuleException {
+        setDonation(donation);
+        setDonationState(donationState);
+        this.transactionDate = new Date();
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Setters">
+    public void setDonation(Donation donation) throws BusinessRuleException {
+        if(donation == null){
+            throw new BusinessRuleException("The donation's transaction needs to be part of a donation!");
+        }
+        this.donation = donation;
+    }
+
+    public void setDonationState(DonationState donationState) throws BusinessRuleException {
+        if(donationState == null){
+            throw new BusinessRuleException("The donation's state needs to be part of a donation!");
+        }
+        this.donationState = donationState;
+    }
+    //</editor-fold>
 }

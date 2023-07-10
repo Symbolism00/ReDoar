@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import util.StringUtils;
 
+import java.util.List;
+
 @Table(name = "category")
 @Entity
 @Getter
@@ -29,6 +31,12 @@ public class Category extends Audit{
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+    private List<User> users;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+    private List<Donation> donations;
 
     protected Category(){
         // for ORM

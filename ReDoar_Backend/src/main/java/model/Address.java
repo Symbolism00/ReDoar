@@ -43,17 +43,30 @@ public class Address extends Audit{
     @Column(name = "longitude")
     private BigDecimal longitude;
 
+    @JoinColumn(name = "parish_id", referencedColumnName = Parish.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Parish parish;
+
+    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Person person;
+
+    @JoinColumn(name = "organization_id", referencedColumnName = Organization.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization organization;
+
     public Address() {
         // for ORM
     }
 
-    public Address(String street, Integer doorNumber, String floor, String zipCode, BigDecimal latitude, BigDecimal longitude) throws BusinessRuleException {
+    public Address(String street, Integer doorNumber, String floor, String zipCode, BigDecimal latitude, BigDecimal longitude, Parish parish) throws BusinessRuleException {
         setStreet(street);
         setDoorNumber(doorNumber);
         setFloor(floor);
         setZipCode(zipCode);
         setLatitude(latitude);
         setLongitude(longitude);
+        setParish(parish);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -101,6 +114,21 @@ public class Address extends Audit{
             throw new BusinessRuleException("The address' longitude " + longitude + " is not valid!");
         }
         this.longitude = longitude;
+    }
+
+    public void setParish(Parish parish) throws BusinessRuleException {
+        if(parish == null){
+            throw new BusinessRuleException("The address' parish can't be null!");
+        }
+        this.parish = parish;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
     //</editor-fold>
 }

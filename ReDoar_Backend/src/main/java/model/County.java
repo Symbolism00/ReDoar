@@ -27,13 +27,18 @@ public class County extends Audit{
     @Column(name = "description")
     private String description;
 
+    @JoinColumn(name = "district_id", referencedColumnName = District.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private District district;
+
     protected County() {
         // for ORM
     }
 
-    public County(String designation, String description) throws BusinessRuleException {
+    public County(String designation, String description, District district) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
+        setDistrict(district);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -49,6 +54,13 @@ public class County extends Audit{
             throw new BusinessRuleException("The county's description can't be null or empty!");
         }
         this.description = StringUtils.trim(description);
+    }
+
+    public void setDistrict(District district) throws BusinessRuleException {
+        if(district == null){
+            throw new BusinessRuleException("The county's district can't be null!");
+        }
+        this.district = district;
     }
     //</editor-fold>
 }

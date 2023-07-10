@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import util.StringUtils;
 
+import java.util.List;
+
 @Table(name = "user")
 @Entity
 @Getter
@@ -27,13 +29,26 @@ public class User extends Audit {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @JoinTable(
+            name = "user_category",
+            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = PROPERTY_ID) },
+            inverseJoinColumns = { @JoinColumn(name = "category_id", referencedColumnName = Category.PROPERTY_ID) }
+    )
+    private List<Category> categories;
+
     protected User(){
         // for ORM
     }
 
-    public User(String username, String password) throws BusinessRuleException {
+    public User(String username, String password, UserRole userRole) throws BusinessRuleException {
         setUsername(username);
         setPassword(password);
+        setUserRole(userRole);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -49,6 +64,13 @@ public class User extends Audit {
             throw new BusinessRuleException("The user's password can't be null or empty!");
         }
         this.password = StringUtils.trim(password);
+    }
+
+    public void setUserRole(UserRole userRole) throws BusinessRuleException {
+        if(userRole == null){
+            throw new BusinessRuleException("The user's role can't be null!");
+        }
+        this.userRole = userRole;
     }
     //</editor-fold>
 }

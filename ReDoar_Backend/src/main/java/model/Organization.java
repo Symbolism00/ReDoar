@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import util.StringUtils;
 
+import java.util.List;
+
 @Table(name = "organization")
 @Entity
 @Getter
@@ -40,16 +42,36 @@ public class Organization extends Audit{
     @Column(name = "classification")
     private Double classification;
 
+    @Column(name = "organization_state")
+    @Enumerated(EnumType.STRING)
+    private OrganizationState organizationState;
+
+    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @OneToOne(fetch = FetchType.EAGER)
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+    private List<OrganizationClassification> organizationClassifications;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
+    @JoinTable(
+            name = "organization_pickup_location",
+            joinColumns = { @JoinColumn(name = "organization_id", referencedColumnName = PROPERTY_ID) },
+            inverseJoinColumns = { @JoinColumn(name = "pickup_location_id", referencedColumnName = PickupLocation.PROPERTY_ID) }
+    )
+    private List<PickupLocation> pickupLocations;
+
     protected Organization() {
         // for ORM
     }
 
-    public Organization(String designation, String description, String taxNumber, String phoneNumber, String email) throws BusinessRuleException {
+    public Organization(String designation, String description, String taxNumber, String phoneNumber, String email, OrganizationState organizationState) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
         setTaxNumber(taxNumber);
         setPhoneNumber(phoneNumber);
         setEmail(email);
+        setOrganizationState(organizationState);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -89,6 +111,13 @@ public class Organization extends Audit{
             throw new BusinessRuleException(errorMessage);
         }
         this.email = StringUtils.trim(email);
+    }
+
+    public void setOrganizationState(OrganizationState organizationState) throws BusinessRuleException {
+        if(organizationState == null){
+            throw new BusinessRuleException("The organization's state can't be null!");
+        }
+        this.organizationState = organizationState;
     }
     //</editor-fold>
 }

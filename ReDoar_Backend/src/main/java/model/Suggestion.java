@@ -32,13 +32,18 @@ public class Suggestion extends Audit{
     @Column(name = "read_date")
     private Date readDate;
 
+    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     protected Suggestion(){
         // for ORM
     }
 
-    public Suggestion(String message) throws BusinessRuleException {
+    public Suggestion(String message, User user) throws BusinessRuleException {
         setMessage(message);
         this.wasRead = false;
+        setUser(user);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -47,6 +52,13 @@ public class Suggestion extends Audit{
             throw new BusinessRuleException("The suggestion's message can't be null or empty!");
         }
         this.message = message;
+    }
+
+    public void setUser(User user) throws BusinessRuleException {
+        if(user == null){
+            throw new BusinessRuleException("The suggestion's user can't be null!");
+        }
+        this.user = user;
     }
     //</editor-fold>
 }

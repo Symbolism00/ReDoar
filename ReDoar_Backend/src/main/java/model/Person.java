@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import util.StringUtils;
 
+import java.util.List;
+
 @Table(name = "person")
 @Entity
 @Getter
@@ -31,14 +33,27 @@ public class Person extends Audit{
     @Column(name = "email")
     private String email;
 
+    @Column(name = "reliability_level")
+    @Enumerated(EnumType.STRING)
+    private ReliabilityLevel reliabilityLevel;
+
+    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @OneToOne(fetch = FetchType.EAGER)
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    private List<PersonReliability> personReliabilities;
+
     protected Person(){
         // for ORM
     }
 
-    public Person(String name, String phoneNumber, String email) throws BusinessRuleException {
+    public Person(String name, String phoneNumber, String email, ReliabilityLevel reliabilityLevel, User user) throws BusinessRuleException {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
+        setReliabilityLevel(reliabilityLevel);
+        setUser(user);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -63,6 +78,20 @@ public class Person extends Audit{
             throw new BusinessRuleException(errorMessage);
         }
         this.email = StringUtils.trim(email);
+    }
+
+    public void setReliabilityLevel(ReliabilityLevel reliabilityLevel) throws BusinessRuleException {
+        if(reliabilityLevel == null){
+            throw new BusinessRuleException("The person's reliability level can't be null!");
+        }
+        this.reliabilityLevel = reliabilityLevel;
+    }
+
+    public void setUser(User user) throws BusinessRuleException {
+        if(user == null){
+            throw new BusinessRuleException("The person's user can't be null!");
+        }
+        this.user = user;
     }
     //</editor-fold>
 }

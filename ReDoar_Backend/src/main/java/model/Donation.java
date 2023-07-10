@@ -7,6 +7,8 @@ import lombok.Getter;
 import util.NumberUtils;
 import util.StringUtils;
 
+import java.util.List;
+
 @Table(name = "donation")
 @Entity
 @Getter
@@ -31,14 +33,41 @@ public class Donation extends Audit{
     @Column(name = "numberPersons")
     private int numberPersons;
 
+    @JoinColumn(name = "donor_id", referencedColumnName = User.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User donor;
+
+    @JoinColumn(name = "receiver_id", referencedColumnName = User.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User receiver;
+
+    @Column(name = "donation_state")
+    @Enumerated(EnumType.STRING)
+    private DonationState donationState;
+
+    @JoinColumn(name = "pickup_location_id", referencedColumnName = PickupLocation.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PickupLocation pickupLocation;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "donations")
+    @JoinTable(
+            name = "donation_category",
+            joinColumns = { @JoinColumn(name = "donation_id", referencedColumnName = PROPERTY_ID) },
+            inverseJoinColumns = { @JoinColumn(name = "category_id", referencedColumnName = Category.PROPERTY_ID) }
+    )
+    private List<Category> categories;
+
     protected Donation(){
         // for ORM
     }
 
-    public Donation(String designation, String description, int numberPersons) throws BusinessRuleException {
+    public Donation(String designation, String description, int numberPersons, User donor, User receiver) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
         setNumberPersons(numberPersons);
+        setDonor(donor);
+        setReceiver(receiver);
+        this.donationState = DonationState.REQUESTED;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -61,6 +90,27 @@ public class Donation extends Audit{
             throw new BusinessRuleException("The donation's number of persons can't be less/equal than zero!");
         }
         this.numberPersons = numberPersons;
+    }
+
+    public void setDonor(User donor) throws BusinessRuleException {
+        if(donor == null){
+            throw new BusinessRuleException("The donation's donor can't be null!");
+        }
+        this.donor = donor;
+    }
+
+    public void setReceiver(User receiver) throws BusinessRuleException {
+        if(receiver == null){
+            throw new BusinessRuleException("The donation's receiver can't be null!");
+        }
+        this.receiver = receiver;
+    }
+
+    public void setDonationState(DonationState donationState) throws BusinessRuleException {
+        if(donationState == null){
+            throw new BusinessRuleException("The donation's state can't be null!");
+        }
+        this.donationState = donationState;
     }
     //</editor-fold>
 }

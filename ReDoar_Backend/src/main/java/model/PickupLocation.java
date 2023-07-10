@@ -8,6 +8,7 @@ import util.DateUtils;
 import util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "pickup_location")
 @Entity
@@ -39,16 +40,24 @@ public class PickupLocation extends Audit{
     @Column(name = "close_hour")
     private Date closeHour;
 
+    @JoinColumn(name = "address_id", referencedColumnName = Address.PROPERTY_ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Address address;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pickupLocations")
+    private List<Organization> organizations;
+
     protected PickupLocation(){
         // for ORM
     }
 
-    public PickupLocation(String code, String designation, String description, Date openHour, Date closeHour) throws BusinessRuleException {
+    public PickupLocation(String code, String designation, String description, Date openHour, Date closeHour, Address address) throws BusinessRuleException {
         setCode(code);
         setDesignation(designation);
         setDescription(description);
         setOpenHour(openHour);
         setCloseHour(closeHour);
+        setAddress(address);
         checkHours();
     }
 
@@ -86,6 +95,13 @@ public class PickupLocation extends Audit{
             throw new BusinessRuleException("The pickup location's close hour can't be null!");
         }
         this.closeHour = closeHour;
+    }
+
+    public void setAddress(Address address) throws BusinessRuleException {
+        if(address == null){
+            throw new BusinessRuleException("The pickup location's address can't be null!");
+        }
+        this.address = address;
     }
     //</editor-fold>
 
