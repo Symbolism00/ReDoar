@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build_test:
+  build_test_analyze:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
         java-version: '20'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: Build & Test with Maven
       working-directory: ./ReDoar_Backend
       run: mvn -B package --file pom.xml 
     - name: Cache SonarCloud packages
@@ -26,7 +26,7 @@ jobs:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar  
-    - name: Analyze
+    - name: SonarCloud Analyze
       env:      
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
