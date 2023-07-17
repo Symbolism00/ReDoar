@@ -38,4 +38,34 @@ public class DateUtils {
             return false;
         }
     }
+
+    /**
+     * Method that checks if one date is before the current date
+     * @param date the date to compare
+     * @param dateFormat the format to compare
+     * @return true if it is, false if not
+     */
+    public static boolean isBeforeCurrentDate(Date date, String dateFormat){
+        return isBefore(date, new Date(), dateFormat);
+    }
+
+    /**
+     * Method that checks if one date is before the other date
+     * @param date1 the date 1 to compare
+     * @param date2 the date 2 to compare
+     * @param dateFormat the format to compare
+     * @return true if it is, false if not
+     */
+    public static boolean isBefore(Date date1, Date date2, String dateFormat) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        // convert dates to the same format
+        String date1Str = sdf.format(date1);
+        String date2Str = sdf.format(date2);
+        // checks if date 1 is before date 2
+        try {
+            return sdf.parse(date1Str).before(sdf.parse(date2Str));
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }
