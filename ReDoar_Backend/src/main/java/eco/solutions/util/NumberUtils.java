@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 
 public class NumberUtils {
 
+    private NumberUtils(){
+        // empty constructor
+    }
+
     /**
      * Method that checks if a string is an integer
      * @param str the string to convert

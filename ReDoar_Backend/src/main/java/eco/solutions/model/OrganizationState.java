@@ -1,5 +1,7 @@
 package eco.solutions.model;
 
+import lombok.Getter;
+
 public enum OrganizationState {
 
     PENDING(0, "Pending", true, false, false),
@@ -7,9 +9,13 @@ public enum OrganizationState {
     REJECTED(2, "Rejected", false, false, true);
 
     private final int id;
+    @Getter
     private final String designation;
+    @Getter
     private final boolean isPending;
+    @Getter
     private final boolean isAccepted;
+    @Getter
     private final boolean isRejected;
 
     OrganizationState(int id, String designation, boolean isPending, boolean isAccepted, boolean isRejected){
@@ -19,24 +25,6 @@ public enum OrganizationState {
         this.isAccepted = isAccepted;
         this.isRejected = isRejected;
     }
-
-    //<editor-fold defaultstate="collapsed" desc="Getters">
-    public String getDesignation() {
-        return designation;
-    }
-
-    public boolean isPending() {
-        return isPending;
-    }
-
-    public boolean isAccepted() {
-        return isAccepted;
-    }
-
-    public boolean isRejected() {
-        return isRejected;
-    }
-    //</editor-fold>
 
     /**
      * Method that gets the organization state by its id

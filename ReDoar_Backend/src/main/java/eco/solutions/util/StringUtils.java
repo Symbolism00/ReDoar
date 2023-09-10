@@ -2,13 +2,17 @@ package eco.solutions.util;
 
 public class StringUtils {
 
+    private StringUtils(){
+        // empty constructor
+    }
+
     /**
      * Method that checks if a string is null or empty
      * @param str the string to check
      * @return true if it is, false if not
      */
     public static boolean isNullOrEmpty(String str){
-        return str == null || str.isEmpty();
+        return str == null || str.trim().isEmpty();
     }
 
     /**

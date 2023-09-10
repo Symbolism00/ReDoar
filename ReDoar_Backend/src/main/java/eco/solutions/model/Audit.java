@@ -1,5 +1,6 @@
 package eco.solutions.model;
 
+import eco.solutions.exceptions.AuditException;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -32,8 +33,9 @@ public class Audit implements Serializable {
     /**
      * Method that fills the insert entity audit
      * @param insUser the user that did the operation
+     * @throws AuditException if the entity was already inserted
      */
-    public void insert(User insUser){
+    public void insert(User insUser) throws AuditException {
         insert(insUser, true);
     }
 
@@ -41,8 +43,14 @@ public class Audit implements Serializable {
      * Method that sets the insert entity audit with the option to set the active property
      * @param insUser the user that did the operation
      * @param active property that indicates if the entity is active or not
+     * @throws AuditException if the entity was already inserted
      */
-    public void insert(User insUser, boolean active){
+    public void insert(User insUser, boolean active) throws AuditException {
+
+        if(version != null){
+            throw new AuditException("The entity was already inserted!");
+        }
+
         this.insUser = insUser;
         this.insDate = new Date();
         this.version = 1L;
@@ -52,8 +60,9 @@ public class Audit implements Serializable {
     /**
      * Method that sets the update entity audit
      * @param altUser the user that did the operation
+     * @throws AuditException if the entity was not already inserted
      */
-    public void update(User altUser){
+    public void update(User altUser) throws AuditException {
         update(altUser, true);
     }
 
@@ -61,8 +70,14 @@ public class Audit implements Serializable {
      * Method that sets the update entity audit with the option to set the active property
      * @param altUser the user that did the operation
      * @param active property that indicates if the entity is active or not
+     * @throws AuditException if the entity was not already inserted
      */
-    public void update(User altUser, boolean active){
+    public void update(User altUser, boolean active) throws AuditException {
+
+        if(version == null){
+            throw new AuditException("The entity was not already inserted!");
+        }
+
         this.version++;
         this.altDate = new Date();
         this.altUser = altUser;

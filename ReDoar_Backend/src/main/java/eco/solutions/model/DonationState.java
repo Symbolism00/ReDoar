@@ -1,5 +1,7 @@
 package eco.solutions.model;
 
+import lombok.Getter;
+
 public enum DonationState {
 
     CREATED(0, "Created"),
@@ -13,15 +15,13 @@ public enum DonationState {
 
 
     private final int id;
+
+    @Getter
     private final String designation;
 
     DonationState(int id, String designation) {
         this.id = id;
         this.designation = designation;
-    }
-
-    public String getDesignation() {
-        return designation;
     }
 
     /**

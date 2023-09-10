@@ -1,5 +1,7 @@
 package eco.solutions.model;
 
+import lombok.Getter;
+
 public enum ReliabilityLevel {
 
     VERY_RELIABLE(0, "Very Reliable"),
@@ -9,15 +11,12 @@ public enum ReliabilityLevel {
     VERY_UNRELIABLE(4, "Very Unreliable");
 
     private final int id;
+    @Getter
     private final String designation;
 
     ReliabilityLevel(int id, String designation) {
         this.id = id;
         this.designation = designation;
-    }
-
-    public String getDesignation() {
-        return designation;
     }
 
     /**

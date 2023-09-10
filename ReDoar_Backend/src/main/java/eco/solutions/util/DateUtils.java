@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class DateUtils {
 
+    private DateUtils(){
+        // empty constructor
+    }
+
     public static final String YYYY_MM_DD_HH_MI = "yyyy-MM-dd HH:mm";
     public static final String HH_MI = "HH:mm";
 

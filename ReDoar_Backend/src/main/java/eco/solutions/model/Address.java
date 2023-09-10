@@ -55,7 +55,7 @@ public class Address extends Audit{
     @ManyToOne(fetch = FetchType.LAZY)
     private Organization organization;
 
-    public Address() {
+    protected Address() {
         // for ORM
     }
 
@@ -110,7 +110,7 @@ public class Address extends Audit{
         if(longitude == null){
             throw new BusinessRuleException("The address' longitude can't be null or empty!");
         }
-        if(!NumberUtils.isValidLongitude(latitude)){
+        if(!NumberUtils.isValidLongitude(longitude)){
             throw new BusinessRuleException("The address' longitude " + longitude + " is not valid!");
         }
         this.longitude = longitude;
