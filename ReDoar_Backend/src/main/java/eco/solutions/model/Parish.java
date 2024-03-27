@@ -27,18 +27,17 @@ public class Parish extends Audit{
     @Column(name = "description")
     private String description;
 
-    @JoinColumn(name = "county_id", referencedColumnName = County.PROPERTY_ID)
+    @JoinColumn(name = "county_id", referencedColumnName = County.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private County county;
 
-    protected Parish() {
-        // for ORM
-    }
+    @Column(name = "county_id")
+    private Long countyId;
 
-    public Parish(String designation, String description, County county) throws BusinessRuleException {
+    public Parish(String designation, String description, Long countyId) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
-        setCounty(county);
+        setCountyId(countyId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -56,11 +55,11 @@ public class Parish extends Audit{
         this.description = StringUtils.trim(description);
     }
 
-    public void setCounty(County county) throws BusinessRuleException {
-        if(county == null){
+    public void setCountyId(Long countyId) throws BusinessRuleException {
+        if(countyId == null){
             throw new BusinessRuleException("The parish's county can't be null!");
         }
-        this.county = county;
+        this.countyId = countyId;
     }
     //</editor-fold>
 }

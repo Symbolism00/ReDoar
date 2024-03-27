@@ -24,32 +24,31 @@ public class DonationTransaction implements Serializable {
     private Long id;
 
     @Column(name = "transaction_date")
-    private Date transactionDate;
+    private final Date transactionDate;
 
-    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID)
+    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Donation donation;
+
+    @Column(name = "donation_id")
+    private Long donationId;
 
     @Column(name = "donation_state")
     @Enumerated(EnumType.STRING)
     private DonationState donationState;
 
-    protected DonationTransaction() {
-        // for ORM
-    }
-
-    public DonationTransaction(Donation donation, DonationState donationState) throws BusinessRuleException {
-        setDonation(donation);
+    public DonationTransaction(Long donationId, DonationState donationState) throws BusinessRuleException {
+        setDonationId(donationId);
         setDonationState(donationState);
         this.transactionDate = new Date();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
-    public void setDonation(Donation donation) throws BusinessRuleException {
-        if(donation == null){
+    public void setDonationId(Long donationId) throws BusinessRuleException {
+        if(donationId == null){
             throw new BusinessRuleException("The donation's transaction needs to be part of a donation!");
         }
-        this.donation = donation;
+        this.donationId = donationId;
     }
 
     public void setDonationState(DonationState donationState) throws BusinessRuleException {

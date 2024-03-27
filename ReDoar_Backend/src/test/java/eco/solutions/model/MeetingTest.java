@@ -10,15 +10,10 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MeetingTest {
-
-    private static Donation donation;
-    private static Address address;
     private static Date datetime;
 
     @BeforeAll
     public static void setUp(){
-        donation = new Donation();
-        address = new Address();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.MONTH, 1);
@@ -27,26 +22,26 @@ class MeetingTest {
 
     @Test
     public void shouldCreateMeetingTest() throws BusinessRuleException {
-        Meeting meeting = new Meeting(datetime, donation, address);
+        Meeting meeting = new Meeting(datetime, 1L, 1L);
         assertEquals(datetime, meeting.getMeetingDatetime());
-        assertEquals(donation, meeting.getDonation());
-        assertEquals(address, meeting.getAddress());
-        assertFalse(meeting.isHasOccured());
+        assertEquals(1L, meeting.getDonationId());
+        assertEquals(1L, meeting.getAddressId());
+        assertFalse(meeting.isHasOccurred());
     }
 
     @Test
     public void shouldFailMeetingMeetingDatetimeBeforeCurrentDateTest() {
-        assertThrows(BusinessRuleException.class, () -> new Meeting(new Date(), donation, address));
+        assertThrows(BusinessRuleException.class, () -> new Meeting(new Date(), 1L, 1L));
     }
 
     @Test
     public void shouldFailMeetingDonationIsNullTest() {
-        assertThrows(BusinessRuleException.class, () -> new Meeting(datetime, null, address));
+        assertThrows(BusinessRuleException.class, () -> new Meeting(datetime, null, 1L));
     }
 
     @Test
     public void shouldFailMeetingAddressIsNullTest() {
-        assertThrows(BusinessRuleException.class, () -> new Meeting(datetime, donation, null));
+        assertThrows(BusinessRuleException.class, () -> new Meeting(datetime, 1L, null));
     }
 
 }

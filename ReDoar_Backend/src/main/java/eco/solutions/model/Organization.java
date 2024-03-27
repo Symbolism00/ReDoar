@@ -46,10 +46,6 @@ public class Organization extends Audit{
     @Enumerated(EnumType.STRING)
     private OrganizationState organizationState;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
-    @OneToOne(fetch = FetchType.EAGER)
-    private User user;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
     private List<OrganizationClassification> organizationClassifications;
 
@@ -60,10 +56,6 @@ public class Organization extends Audit{
             inverseJoinColumns = { @JoinColumn(name = "pickup_location_id", referencedColumnName = PickupLocation.PROPERTY_ID) }
     )
     private List<PickupLocation> pickupLocations;
-
-    protected Organization() {
-        // for ORM
-    }
 
     public Organization(String designation, String description, String taxNumber, String phoneNumber, String email, OrganizationState organizationState) throws BusinessRuleException {
         setDesignation(designation);

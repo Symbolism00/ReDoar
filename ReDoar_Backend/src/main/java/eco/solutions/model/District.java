@@ -27,10 +27,6 @@ public class District extends Audit{
     @Column(name = "description")
     private String description;
 
-    protected District() {
-        // for ORM
-    }
-
     public District(String designation, String description) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);

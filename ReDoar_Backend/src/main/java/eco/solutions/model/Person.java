@@ -37,23 +37,30 @@ public class Person extends Audit{
     @Enumerated(EnumType.STRING)
     private ReliabilityLevel reliabilityLevel;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
-    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID, insertable = false, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<PersonReliability> personReliabilities;
 
-    protected Person(){
-        // for ORM
-    }
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @JoinTable(
+            name = "person_category",
+            joinColumns = { @JoinColumn(name = "person_id", referencedColumnName = PROPERTY_ID) },
+            inverseJoinColumns = { @JoinColumn(name = "category_id", referencedColumnName = Category.PROPERTY_ID) }
+    )
+    private List<Category> categories;
 
-    public Person(String name, String phoneNumber, String email, ReliabilityLevel reliabilityLevel, User user) throws BusinessRuleException {
+    public Person(String name, String phoneNumber, String email, ReliabilityLevel reliabilityLevel, Long userId) throws BusinessRuleException {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setReliabilityLevel(reliabilityLevel);
-        setUser(user);
+        setUserId(userId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -87,11 +94,11 @@ public class Person extends Audit{
         this.reliabilityLevel = reliabilityLevel;
     }
 
-    public void setUser(User user) throws BusinessRuleException {
-        if(user == null){
+    public void setUserId(Long userId) throws BusinessRuleException {
+        if(userId == null){
             throw new BusinessRuleException("The person's user can't be null!");
         }
-        this.user = user;
+        this.userId = userId;
     }
     //</editor-fold>
 }

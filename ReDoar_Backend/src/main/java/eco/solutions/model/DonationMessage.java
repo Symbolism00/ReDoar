@@ -24,22 +24,24 @@ public class DonationMessage extends Audit{
     @Column(name = "content")
     private String content;
 
-    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID)
+    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Donation donation;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @Column(name = "donation_id")
+    private Long donationId;
+
+    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    protected DonationMessage(){
-        // for ORM
-    }
+    @Column(name = "user_id")
+    private Long userId;
 
-    public DonationMessage(String content, Donation donation, User user) throws BusinessRuleException {
+    public DonationMessage(String content, Long donationId, Long userId) throws BusinessRuleException {
         setContent(content);
-        setDonation(donation);
-        setUser(user);
+        setDonationId(donationId);
+        setUserId(userId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -50,18 +52,18 @@ public class DonationMessage extends Audit{
         this.content = content;
     }
 
-    public void setDonation(Donation donation) throws BusinessRuleException {
-        if(donation == null){
+    public void setDonationId(Long donationId) throws BusinessRuleException {
+        if(donationId == null){
             throw new BusinessRuleException("The message needs to be part of a donation!");
         }
-        this.donation = donation;
+        this.donationId = donationId;
     }
 
-    public void setUser(User user) throws BusinessRuleException {
-        if(user == null){
+    public void setUserId(Long userId) throws BusinessRuleException {
+        if(userId == null){
             throw new BusinessRuleException("The donation message's user can't be null!");
         }
-        this.user = user;
+        this.userId = userId;
     }
     //</editor-fold>
 }

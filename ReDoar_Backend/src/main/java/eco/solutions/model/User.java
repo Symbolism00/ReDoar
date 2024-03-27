@@ -33,17 +33,12 @@ public class User extends Audit {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    @JoinTable(
-            name = "user_category",
-            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = PROPERTY_ID) },
-            inverseJoinColumns = { @JoinColumn(name = "category_id", referencedColumnName = Category.PROPERTY_ID) }
-    )
-    private List<Category> categories;
+    @JoinColumn(name = "organization_id", referencedColumnName = Organization.PROPERTY_ID, insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization organization;
 
-    protected User(){
-        // for ORM
-    }
+    @Column(name = "organization_id")
+    private Long organizationId;
 
     public User(String username, String password, UserRole userRole) throws BusinessRuleException {
         setUsername(username);

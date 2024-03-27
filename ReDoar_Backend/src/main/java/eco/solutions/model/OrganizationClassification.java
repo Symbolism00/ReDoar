@@ -25,27 +25,26 @@ public class OrganizationClassification implements Serializable {
     private Long id;
 
     @Column(name = "feedback_message")
-    private String feedbackMessage;
+    private final String feedbackMessage;
 
     @Column(name = "classification")
     private int classification;
 
     @Column(name = "feedback_date")
-    private Date feedbackDate;
+    private final Date feedbackDate;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Person person;
 
-    protected OrganizationClassification(){
-        // for ORM
-    }
+    @Column(name = "person_id")
+    private Long personId;
 
-    public OrganizationClassification(String feedbackMessage, int classification, User user) throws BusinessRuleException {
+    public OrganizationClassification(String feedbackMessage, int classification, Long personId) throws BusinessRuleException {
         setClassification(classification);
         this.feedbackMessage = feedbackMessage;
         this.feedbackDate = new Date();
-        setUser(user);
+        setPersonId(personId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -56,11 +55,11 @@ public class OrganizationClassification implements Serializable {
         this.classification = classification;
     }
 
-    public void setUser(User user) throws BusinessRuleException {
-        if(user == null){
-            throw new BusinessRuleException("The organization's classification user can't be null!");
+    public void setPersonId(Long personId) throws BusinessRuleException {
+        if(personId == null){
+            throw new BusinessRuleException("The organization's classification person can't be null!");
         }
-        this.user = user;
+        this.personId = personId;
     }
     //</editor-fold>
 }

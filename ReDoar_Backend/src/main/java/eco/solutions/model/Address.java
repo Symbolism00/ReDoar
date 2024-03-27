@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import eco.solutions.util.NumberUtils;
 import eco.solutions.util.StringUtils;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -43,30 +44,38 @@ public class Address extends Audit{
     @Column(name = "longitude")
     private BigDecimal longitude;
 
-    @JoinColumn(name = "parish_id", referencedColumnName = Parish.PROPERTY_ID)
+    @JoinColumn(name = "parish_id", referencedColumnName = Parish.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Parish parish;
 
-    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID)
+    @Column(name = "parish_id")
+    private Long parishId;
+
+    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    @JoinColumn(name = "organization_id", referencedColumnName = Organization.PROPERTY_ID)
+    @Setter
+    @Column(name = "person_id")
+    private Long personId;
+
+    @JoinColumn(name = "organization_id", referencedColumnName = Organization.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Organization organization;
 
-    protected Address() {
-        // for ORM
-    }
+    @Setter
+    @Column(name = "organization_id")
+    private Long organizationId;
 
-    public Address(String street, Integer doorNumber, String floor, String zipCode, BigDecimal latitude, BigDecimal longitude, Parish parish) throws BusinessRuleException {
+    public Address(String street, Integer doorNumber, String floor, String zipCode, BigDecimal latitude, BigDecimal longitude,
+                   Long parishId) throws BusinessRuleException {
         setStreet(street);
         setDoorNumber(doorNumber);
         setFloor(floor);
         setZipCode(zipCode);
         setLatitude(latitude);
         setLongitude(longitude);
-        setParish(parish);
+        setParishId(parishId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -116,19 +125,11 @@ public class Address extends Audit{
         this.longitude = longitude;
     }
 
-    public void setParish(Parish parish) throws BusinessRuleException {
-        if(parish == null){
+    public void setParishId(Long parishId) throws BusinessRuleException {
+        if(parishId == null){
             throw new BusinessRuleException("The address' parish can't be null!");
         }
-        this.parish = parish;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+        this.parishId = parishId;
     }
     //</editor-fold>
 }

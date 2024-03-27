@@ -24,32 +24,34 @@ public class PersonReliability implements Serializable {
     private Long id;
 
     @Column(name = "feedback_message")
-    private String feedbackMessage;
+    private final String feedbackMessage;
 
     @Column(name = "feedback_date")
-    private Date feedbackDate;
+    private final Date feedbackDate;
 
     @Column(name = "reliability_level")
     @Enumerated(EnumType.STRING)
     private ReliabilityLevel reliabilityLevel;
 
-    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID)
+    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @Column(name = "person_id")
+    private Long personId;
+
+    @JoinColumn(name = "evaluator_id", referencedColumnName = Person.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Person evaluator;
 
-    protected PersonReliability() {
-        // for ORM
-    }
+    @Column(name = "evaluator_id")
+    private Long evaluatorId;
 
-    public PersonReliability(String feedbackMessage, ReliabilityLevel reliabilityLevel, Person person, User user) throws BusinessRuleException {
+    public PersonReliability(String feedbackMessage, ReliabilityLevel reliabilityLevel, Long personId, Long evaluatorId) throws BusinessRuleException {
         this.feedbackMessage = feedbackMessage;
         setReliabilityLevel(reliabilityLevel);
-        setPerson(person);
-        setUser(user);
+        setPersonId(personId);
+        setEvaluatorId(evaluatorId);
         this.feedbackDate = new Date();
     }
 
@@ -61,18 +63,18 @@ public class PersonReliability implements Serializable {
         this.reliabilityLevel = reliabilityLevel;
     }
 
-    public void setPerson(Person person) throws BusinessRuleException {
-        if(person == null){
-            throw new BusinessRuleException("The person's reliability can't be null!");
+    public void setPersonId(Long personId) throws BusinessRuleException {
+        if(personId == null){
+            throw new BusinessRuleException("The person's reliability person can't be null!");
         }
-        this.person = person;
+        this.personId = personId;
     }
 
-    public void setUser(User user) throws BusinessRuleException {
-        if(user == null){
-            throw new BusinessRuleException("The person's reliability user can't be null!");
+    public void setEvaluatorId(Long evaluatorId) throws BusinessRuleException {
+        if(evaluatorId == null){
+            throw new BusinessRuleException("The person's reliability evaluator can't be null!");
         }
-        this.user = user;
+        this.evaluatorId = evaluatorId;
     }
     //</editor-fold>
 }

@@ -26,26 +26,28 @@ public class Meeting extends Audit{
     @Column(name = "meeting_datetime")
     private Date meetingDatetime;
 
-    @Column(name = "has_occured")
-    private boolean hasOccured;
+    @Column(name = "has_occurred")
+    private final boolean hasOccurred;
 
-    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID)
+    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Donation donation;
 
-    @JoinColumn(name = "address_id", referencedColumnName = Address.PROPERTY_ID)
+    @Column(name = "donation_id")
+    private Long donationId;
+
+    @JoinColumn(name = "address_id", referencedColumnName = Address.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Address address;
 
-    protected Meeting(){
-        // for ORM
-    }
+    @Column(name = "address_id")
+    private Long addressId;
 
-    public Meeting(Date meetingDatetime, Donation donation, Address address) throws BusinessRuleException {
+    public Meeting(Date meetingDatetime, Long donationId, Long addressId) throws BusinessRuleException {
         setMeetingDatetime(meetingDatetime);
-        setDonation(donation);
-        setAddress(address);
-        this.hasOccured = false;
+        setDonationId(donationId);
+        setAddressId(addressId);
+        this.hasOccurred = false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -56,18 +58,18 @@ public class Meeting extends Audit{
         this.meetingDatetime = meetingDatetime;
     }
 
-    public void setDonation(Donation donation) throws BusinessRuleException {
-        if(donation == null){
+    public void setDonationId(Long donationId) throws BusinessRuleException {
+        if(donationId == null){
             throw new BusinessRuleException("The meeting's donation can't be null!");
         }
-        this.donation = donation;
+        this.donationId = donationId;
     }
 
-    public void setAddress(Address address) throws BusinessRuleException {
-        if(address == null){
+    public void setAddressId(Long addressId) throws BusinessRuleException {
+        if(addressId == null){
             throw new BusinessRuleException("The meeting's address can't be null!");
         }
-        this.address = address;
+        this.addressId = addressId;
     }
     //</editor-fold>
 }

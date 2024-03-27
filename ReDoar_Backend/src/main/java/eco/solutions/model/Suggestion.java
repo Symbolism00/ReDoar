@@ -27,23 +27,22 @@ public class Suggestion extends Audit{
     private String message;
 
     @Column(name = "was_read")
-    private boolean wasRead;
+    private final boolean wasRead;
 
     @Column(name = "read_date")
     private Date readDate;
 
-    @JoinColumn(name = "user_id", referencedColumnName = User.PROPERTY_ID)
+    @JoinColumn(name = "person_id", referencedColumnName = Person.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Person person;
 
-    protected Suggestion(){
-        // for ORM
-    }
+    @Column(name = "person_id")
+    private Long personId;
 
-    public Suggestion(String message, User user) throws BusinessRuleException {
+    public Suggestion(String message, Long personId) throws BusinessRuleException {
         setMessage(message);
         this.wasRead = false;
-        setUser(user);
+        setPersonId(personId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -54,11 +53,11 @@ public class Suggestion extends Audit{
         this.message = message;
     }
 
-    public void setUser(User user) throws BusinessRuleException {
-        if(user == null){
-            throw new BusinessRuleException("The suggestion's user can't be null!");
+    public void setPersonId(Long personId) throws BusinessRuleException {
+        if(personId == null){
+            throw new BusinessRuleException("The suggestion's person can't be null!");
         }
-        this.user = user;
+        this.personId = personId;
     }
     //</editor-fold>
 }

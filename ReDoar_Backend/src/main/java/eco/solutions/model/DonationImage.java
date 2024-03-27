@@ -36,19 +36,19 @@ public class DonationImage implements Serializable {
     @Column(name = "size")
     private double size;
 
-    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID)
+    @JoinColumn(name = "donation_id", referencedColumnName = Donation.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Donation donation;
-    protected DonationImage() {
-        // for ORM
-    }
 
-    public DonationImage(String path, String fileName, String extension, double size, Donation donation) throws BusinessRuleException {
+    @Column(name = "donation_id")
+    private Long donationId;
+
+    public DonationImage(String path, String fileName, String extension, double size, Long donationId) throws BusinessRuleException {
         setPath(path);
         setFileName(fileName);
         setExtension(extension);
         setSize(size);
-        setDonation(donation);
+        setDonationId(donationId);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Setters">
@@ -80,11 +80,11 @@ public class DonationImage implements Serializable {
         this.size = size;
     }
 
-    public void setDonation(Donation donation) throws BusinessRuleException {
-        if(donation == null){
+    public void setDonationId(Long donationId) throws BusinessRuleException {
+        if(donationId == null){
             throw new BusinessRuleException("The donation's image needs to be part of a donation!");
         }
-        this.donation = donation;
+        this.donationId = donationId;
     }
     //</editor-fold>
 }

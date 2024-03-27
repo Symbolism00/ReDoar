@@ -40,24 +40,23 @@ public class PickupLocation extends Audit{
     @Column(name = "close_hour")
     private Date closeHour;
 
-    @JoinColumn(name = "address_id", referencedColumnName = Address.PROPERTY_ID)
+    @JoinColumn(name = "address_id", referencedColumnName = Address.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Address address;
+
+    @Column(name = "address_id")
+    private Long addressId;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pickupLocations")
     private List<Organization> organizations;
 
-    protected PickupLocation(){
-        // for ORM
-    }
-
-    public PickupLocation(String code, String designation, String description, Date openHour, Date closeHour, Address address) throws BusinessRuleException {
+    public PickupLocation(String code, String designation, String description, Date openHour, Date closeHour, Long addressId) throws BusinessRuleException {
         setCode(code);
         setDesignation(designation);
         setDescription(description);
         setOpenHour(openHour);
         setCloseHour(closeHour);
-        setAddress(address);
+        setAddressId(addressId);
         checkHours();
     }
 
@@ -97,11 +96,11 @@ public class PickupLocation extends Audit{
         this.closeHour = closeHour;
     }
 
-    public void setAddress(Address address) throws BusinessRuleException {
-        if(address == null){
+    public void setAddressId(Long addressId) throws BusinessRuleException {
+        if(addressId == null){
             throw new BusinessRuleException("The pickup location's address can't be null!");
         }
-        this.address = address;
+        this.addressId = addressId;
     }
     //</editor-fold>
 

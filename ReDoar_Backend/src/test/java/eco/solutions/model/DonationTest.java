@@ -12,52 +12,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DonationTest {
 
-    private static User userA;
-    private static User userB;
-
-    @BeforeAll
-    public static void setUp(){
-        userA = new User();
-        userB = new User();
-    }
-
     @Test
     public void shouldCreateDonationTest() throws BusinessRuleException {
-        Donation donation = new Donation("Designation ", "Description ", 1, userA, userB);
+        Donation donation = new Donation("Designation ", "Description ", 1, 1L, 2L);
         assertEquals("Designation", donation.getDesignation());
         assertEquals("Description", donation.getDescription());
         assertEquals(1, donation.getNumberPersons());
-        assertEquals(userA, donation.getDonor());
-        assertEquals(userB, donation.getReceiver());
+        assertEquals(1L, donation.getDonorId());
+        assertEquals(2L, donation.getReceiverId());
         assertEquals(DonationState.REQUESTED, donation.getDonationState());
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailDonationDesignationIsNullOrEmptyTest(String str) {
-        assertThrows(BusinessRuleException.class, () -> new Donation(str, "Description", 1, userA, userB));
+        assertThrows(BusinessRuleException.class, () -> new Donation(str, "Description", 1, 1L, 2L));
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailDonationDescriptionIsNullOrEmptyTest(String str) {
-        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", str, 1, userA, userB));
+        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", str, 1, 1L, 2L));
     }
 
     @ParameterizedTest
     @MethodSource("giveZeroAndNegativeNumbers")
     public void shouldFailDonationNumberPersonsIsZeroOrNegativeTest(int number) {
-        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", number, userA, userB));
+        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", number, 1L, 2L));
     }
 
     @Test
     public void shouldFailDonationDonorIsNullTest() {
-        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", 1, null, userB));
+        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", 1, null, 2L));
     }
 
     @Test
     public void shouldFailDonationReceiverIsNullTest() {
-        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", 1, userA, null));
+        assertThrows(BusinessRuleException.class, () -> new Donation("Designation", "Description", 1, 1L, null));
     }
 
     private static Stream<String> giveNullAndEmptyStrings(){

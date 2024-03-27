@@ -38,10 +38,6 @@ public class Category extends Audit{
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
     private List<Donation> donations;
 
-    protected Category(){
-        // for ORM
-    }
-
     public Category(String code, String designation, String description) throws BusinessRuleException {
         setCode(code);
         setDesignation(designation);

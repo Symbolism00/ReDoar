@@ -33,21 +33,30 @@ public class Donation extends Audit{
     @Column(name = "numberPersons")
     private int numberPersons;
 
-    @JoinColumn(name = "donor_id", referencedColumnName = User.PROPERTY_ID)
+    @JoinColumn(name = "donor_id", referencedColumnName = User.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User donor;
 
-    @JoinColumn(name = "receiver_id", referencedColumnName = User.PROPERTY_ID)
+    @Column(name = "donor_id")
+    private Long donorId;
+
+    @JoinColumn(name = "receiver_id", referencedColumnName = User.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User receiver;
+
+    @Column(name = "receiver_id")
+    private Long receiverId;
 
     @Column(name = "donation_state")
     @Enumerated(EnumType.STRING)
     private DonationState donationState;
 
-    @JoinColumn(name = "pickup_location_id", referencedColumnName = PickupLocation.PROPERTY_ID)
+    @JoinColumn(name = "pickup_location_id", referencedColumnName = PickupLocation.PROPERTY_ID, insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private PickupLocation pickupLocation;
+
+    @Column(name = "pickup_location_id")
+    private Long pickupLocationId;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "donations")
     @JoinTable(
@@ -57,16 +66,12 @@ public class Donation extends Audit{
     )
     private List<Category> categories;
 
-    protected Donation(){
-        // for ORM
-    }
-
-    public Donation(String designation, String description, int numberPersons, User donor, User receiver) throws BusinessRuleException {
+    public Donation(String designation, String description, int numberPersons, Long donorId, Long receiverId) throws BusinessRuleException {
         setDesignation(designation);
         setDescription(description);
         setNumberPersons(numberPersons);
-        setDonor(donor);
-        setReceiver(receiver);
+        setDonorId(donorId);
+        setReceiverId(receiverId);
         this.donationState = DonationState.REQUESTED;
     }
 
@@ -92,18 +97,18 @@ public class Donation extends Audit{
         this.numberPersons = numberPersons;
     }
 
-    public void setDonor(User donor) throws BusinessRuleException {
-        if(donor == null){
+    public void setDonorId(Long donorId) throws BusinessRuleException {
+        if(donorId == null){
             throw new BusinessRuleException("The donation's donor can't be null!");
         }
-        this.donor = donor;
+        this.donorId = donorId;
     }
 
-    public void setReceiver(User receiver) throws BusinessRuleException {
-        if(receiver == null){
+    public void setReceiverId(Long receiverId) throws BusinessRuleException {
+        if(receiverId == null){
             throw new BusinessRuleException("The donation's receiver can't be null!");
         }
-        this.receiver = receiver;
+        this.receiverId = receiverId;
     }
 
     public void setDonationState(DonationState donationState) throws BusinessRuleException {

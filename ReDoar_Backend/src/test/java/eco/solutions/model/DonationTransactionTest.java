@@ -8,17 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DonationTransactionTest {
 
-    private static Donation donation;
-
-    @BeforeAll
-    public static void setUp(){
-        donation = new Donation();
-    }
-
     @Test
     public void shouldCreateDonationTransactionTest() throws BusinessRuleException {
-        DonationTransaction donationTransaction = new DonationTransaction(donation, DonationState.CANCELED);
-        assertEquals(donation, donationTransaction.getDonation());
+        DonationTransaction donationTransaction = new DonationTransaction(1L, DonationState.CANCELED);
+        assertEquals(1L, donationTransaction.getDonationId());
         assertEquals(DonationState.CANCELED, donationTransaction.getDonationState());
         assertNotNull(donationTransaction.getTransactionDate());
     }
@@ -30,7 +23,7 @@ class DonationTransactionTest {
 
     @Test
     public void shouldFailDonationTransactionDonationStateIsNullTest() {
-        assertThrows(BusinessRuleException.class, () -> new DonationTransaction(donation, null));
+        assertThrows(BusinessRuleException.class, () -> new DonationTransaction(1L, null));
     }
 
 }

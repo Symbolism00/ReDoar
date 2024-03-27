@@ -12,31 +12,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CountyTest {
 
-    private static District district;
-
-    @BeforeAll
-    public static void setUp(){
-        district = new District();
-    }
-
     @Test
     public void shouldCreateCountyTest() throws BusinessRuleException {
-        County county = new County("Designation ", "Description ", district);
+        County county = new County("Designation ", "Description ", 1L);
         assertEquals("Designation", county.getDesignation());
         assertEquals("Description", county.getDescription());
-        assertEquals(district, county.getDistrict());
+        assertEquals(1L, county.getDistrictId());
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailCountyDesignationIsNullOrEmptyTest(String str) {
-        assertThrows(BusinessRuleException.class, () -> new County(str, "Description", district));
+        assertThrows(BusinessRuleException.class, () -> new County(str, "Description", 1L));
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailCountyDescriptionIsNullOrEmptyTest(String str) {
-        assertThrows(BusinessRuleException.class, () -> new County("Designation", str, district));
+        assertThrows(BusinessRuleException.class, () -> new County("Designation", str, 1L));
     }
 
     @Test

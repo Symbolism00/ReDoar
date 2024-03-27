@@ -12,49 +12,42 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DonationImageTest {
 
-    private static Donation donation;
-
-    @BeforeAll
-    public static void setUp(){
-        donation = new Donation();
-    }
-
     @Test
     public void shouldCreateDonationImageTest() throws BusinessRuleException {
-        DonationImage donationImage = new DonationImage("Path", "FileName", "Extension", 10.0, donation);
+        DonationImage donationImage = new DonationImage("Path", "FileName", "Extension", 10.0, 1L);
         assertEquals("Path", donationImage.getPath());
         assertEquals("FileName", donationImage.getFileName());
         assertEquals("Extension", donationImage.getExtension());
         assertEquals(10.0, donationImage.getSize());
-        assertEquals(donation, donationImage.getDonation());
+        assertEquals(1L, donationImage.getDonationId());
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailDonationImagePathIsNullOrEmptyTest(String str) {
         assertThrows(BusinessRuleException.class, () ->
-                new DonationImage(str, "FileName", "Extension", 10.0, donation));
+                new DonationImage(str, "FileName", "Extension", 10.0, 1L));
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailDonationImageFileNameIsNullOrEmptyTest(String str) {
         assertThrows(BusinessRuleException.class, () ->
-                new DonationImage("Path", str, "Extension", 10.0, donation));
+                new DonationImage("Path", str, "Extension", 10.0, 1L));
     }
 
     @ParameterizedTest
     @MethodSource("giveNullAndEmptyStrings")
     public void shouldFailDonationImageExtensionIsNullOrEmptyTest(String str) {
         assertThrows(BusinessRuleException.class, () ->
-                new DonationImage("Path", "FileName", str, 10.0, donation));
+                new DonationImage("Path", "FileName", str, 10.0, 1L));
     }
 
     @ParameterizedTest
     @MethodSource("giveZeroAndNegativeNumbers")
     public void shouldFailDonationImageSizeIsZeroOrNegativeTest(double number) {
         assertThrows(BusinessRuleException.class, () ->
-                new DonationImage("Path", "FileName", "Extension", number, donation));
+                new DonationImage("Path", "FileName", "Extension", number, 1L));
     }
 
     @Test
